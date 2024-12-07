@@ -51,38 +51,6 @@ def get_recommendations(user_features, post_embeddings, top_k=10):
     return top_k_indices
 
 
-# API: Get recommendations (with optional category filter)
-# @app.get("/feed")
-# def get_feed(username: str, category_id: int = Query(None), top_k: int = 10):
-#     """
-#     API to fetch recommendations for a user.
-#     - If `category_id` is provided, fetch category-specific recommendations.
-#     - If `category_id` is not provided, fetch recommendations across all posts.
-#     """
-#     # Fetch user features
-#     user_features = user_features_df.loc[user_features_df['username'] == username]
-#     if user_features.empty:
-#         raise HTTPException(status_code=404, detail="User not found")
-#     user_features = user_features.drop(columns=['username', 'user_id']).values
-
-#     if category_id is not None:
-#         # Filter post features by category
-#         category_posts = post_embed_df.loc[post_embed_df['category_id'] == category_id]
-#         if category_posts.empty:
-#             raise HTTPException(status_code=404, detail="invalid category id")
-#         post_features = category_posts.drop(columns=['category_id', 'post_id']).values
-#         recommendations = get_recommendations(user_features, post_features, top_k)
-#         final_rec = post_features_df.loc[post_features_df['category_id'] == category_id].iloc[recommendations.squeeze(0),:].index
-#     else:
-#         # Use all post features
-#         post_features = post_embed_df.drop(columns=['category_id', 'post_id']).values
-#         recommendations = get_recommendations(user_features, post_features, top_k)
-#         final_rec = post_features_df.iloc[recommendations.squeeze(0), :].index
-
-#     # Fetch recommended video links
-#     rec_video_links = all_posts_df.iloc[final_rec,:]["video_link"].values.tolist()
-#     return {"username": username, "category_id": category_id, "video_links": rec_video_links}
-
 
 @app.get("/feed")
 def get_feed(username: str, category_id: int = Query(None), mood: str = Query(None), top_k: int = 10):
@@ -104,7 +72,7 @@ def get_feed(username: str, category_id: int = Query(None), mood: str = Query(No
         mood_emb = torch.tensor(mood_emb.detach().numpy(), dtype=torch.float32).unsqueeze(0)
         all_post_mood_emb = torch.tensor(post_features_df.iloc[:, -768:].values, dtype=torch.float32)
         scores = torch.matmul(mood_emb, all_post_mood_emb.T)
-        top_k = min(150, scores.shape[1])
+        top_k = min(200, scores.shape[1])
         top_k_indices = torch.topk(scores, k=top_k, dim=1).indices.cpu().numpy()
     
     if category_id is not None:
