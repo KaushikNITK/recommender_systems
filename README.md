@@ -2,7 +2,7 @@
 
 This project explores various techniques used in the field of recommendation, including collaborative filtering, content-based methods, hybrid approaches, and advanced deep learning-based solutions like Two Tower architecture
 
-### Inferenceing
+### Inference or Setup instructions
 this project is based on python 3.11 and above
 to download python 3.11 go to https://www.python.org/downloads/
 
