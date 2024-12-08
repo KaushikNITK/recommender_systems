@@ -3,8 +3,11 @@
 This project explores various techniques used in the field of recommendation, including collaborative filtering, content-based methods, hybrid approaches, and advanced deep learning-based solutions like Two Tower architecture
 
 ### Inferenceing
+this project is based on python 3.11 and above
+to download python 3.11 go to https://www.python.org/downloads/
 
-create a envi to install the required libraries
+To create a envi to install the required libraries(If you have an envi activate it and go to step 3)
+
 1. navigate to the location where you want to create your envi by using
 ```bash
 cd ./path_to_your_loc
