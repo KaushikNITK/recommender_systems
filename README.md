@@ -40,7 +40,7 @@ now wait until you see loading succeessful
 3. all three (username, catogary_id and mood(emoji or text)) as input, url should look like http://localhost:8000/feed?username=your_username&category_id=category_id_user_want_to_see&mood=user_current_mood
 ### Data cleaning and Model
 This Recommender systems is built with two tower architecture with multiple optimizations like post embeddings saving, user to all post embeddings. Data cleaning is done by converting the data given in the api to pandas dataframe, exraction of data, post summary embeddings by bert etc.,
-##### data cleaning and processing
+#### data cleaning and processing
 Data is extracted form api, converted to pandas dataframe and interaction scores are created based on the strength of interaction between the user and each post. All post details are cleaned and extracted using bert embedings of post summary given. Category id is extacted and used while inferencing.
 
 #### Model 
@@ -50,7 +50,14 @@ advantages of two tower over others are
 * complex and powerful model
 * can provide better recomendations even on cold start
 
-While inferencing we have three catogaries 
+Model evaluation on given dataset
+on 10 epochs
+under MSE loss training-0.015, validation loss 0.045
+
+##### insights
+As the posts are fixed i have seperatly stored all posts embedings. this embeddings are directly used to find similarities with user embeddings
+
+While inferencing we have three catogaries filtering of posts happens as follows
 1. Only user name - For this all post's embeddings are given to model
 2. user name and catogary - For this post embeddings with post's category id same as the input category id are given to model
 3. all three are given - for this initially post embeddings are arraged in the order of similarity with given mood input(mood input is embedded by bert and taken similarity with post embedings and arranged) then rigidly seperated by category id then the final post embeddings are sent to the mode.
