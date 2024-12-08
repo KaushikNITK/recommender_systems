@@ -44,7 +44,11 @@ This Recommender systems is built with two tower architecture with multiple opti
 Data is extracted form api, converted to pandas dataframe and interaction scores are created based on the strength of interaction between the user and each post. All post details are cleaned and extracted using bert embedings of post summary given. Category id is extacted and used while inferencing.
 
 #### Model 
-Model architecture includes two towers one encodes user information called user tower, similerly there was post tower which is unnecesary as all the posts are fixed so the post tower is trained and post embedings are taken out from tha post tower and stored in post_embeddings.csv. these post embeddings are used later in the model's inferencing.
+Model architecture includes two towers one encodes user information called user tower, similerly there was post tower which is unnecesary as all the posts are fixed(in case of refreshing posts we can seperatly compute and use them here) so the post tower is trained and post embedings are taken out from tha post tower and stored in post_embeddings.csv. these post embeddings are used later in the model's inferencing.
+advantages of two tower over others are 
+* it provides relation of user with all valid posts and then filter the top recommendations
+* complex and powerful model
+* can provide better recomendations even on cold start
 
 While inferencing we have three catogaries 
 1. Only user name - For this all post's embeddings are given to model
