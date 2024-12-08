@@ -38,6 +38,7 @@ now wait until you see loading succeessful
 1. Only username as input, url should look like http://localhost:8000/feed?username=your_username
 2. both username and catogary_id as input, url should look like http://localhost:8000/feed?username=your_username&category_id=category_id_user_want_to_see
 3. all three (username, catogary_id and mood(emoji or text)) as input, url should look like http://localhost:8000/feed?username=your_username&category_id=category_id_user_want_to_see&mood=user_current_mood
+replace user_name, category_id_user_want_to_see and user_current_mood with appropriate vinputs
 ### Data cleaning and Model
 This Recommender systems is built with two tower architecture with multiple optimizations like post embeddings saving, user to all post embeddings. Data cleaning is done by converting the data given in the api to pandas dataframe, exraction of data, post summary embeddings by bert etc.,
 #### data cleaning and processing
