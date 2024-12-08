@@ -54,6 +54,7 @@ While inferencing we have three catogaries
  1. Given user name then the output is list of 10 video links with its post id
  2. Given user name and category id then the output can be a list of 10 or less than 10 video links with post id
  3. Given all three it is same as case 2
- 4. In case user name does not exist in the database output is an error with status code 404 User not found
- 5. In case of invalid category id the output will be error with status code 404 invalid category id
- 6. incase of invalid server error there might be error in the inference code
+ 4. In case user name does not exist in the database and given mood and category id then output will be same as case 2
+ 5. In case user name does not exist in the database and has not mood OR category id then output will be an error with status code 404 User is not in database so give input of mood and category_id
+ 6. In case of invalid category id the output will be error with status code 404 invalid category id
+ 7. incase of invalid server error there might be error in the inference code
