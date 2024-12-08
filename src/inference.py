@@ -45,7 +45,18 @@ model.to(device)
 
 # Helper function for recommendations
 def get_recommendations(user_features, post_embeddings, top_k=10):
-    '''this function takes user embeddings, post embeddings to give top_k (or less incase) indices of best recomendations for the given user'''
+    ''' 
+    This function generates the top-k recommendations for a user by comparing the user's 
+    embeddings to the embeddings of the posts.
+
+    Args:
+        user_features (ndarray or tensor): A vector of user features (e.g., [batch_size, user_input_dim]).
+        post_embeddings (ndarray or tensor): A matrix of post embeddings (e.g., [num_posts, embedding_dim]).
+        top_k (int, optional): The number of top recommendations to return. Defaults to 10.
+
+    Returns:
+        ndarray: The indices of the top-k=10 (or less than top_k i.e. <10) recommended posts.
+    '''
     user_features = torch.tensor(user_features, dtype=torch.float32).to(device)
     post_embeddings = torch.tensor(post_embeddings, dtype=torch.float32).to(device)
 
@@ -61,11 +72,22 @@ def get_recommendations(user_features, post_embeddings, top_k=10):
 @app.get("/feed")
 def get_feed(username: str, category_id: int = Query(None), mood: str = Query(None), top_k: int = 10):
     """
-    API to fetch recommendations for a user.
-    - If `category_id` is provided, fetch category-specific recommendations.
-    - If `category_id` and `mood` are provided, fetch mood-specific category recommendations.
-    - If neither `category_id` nor `mood` is provided, fetch general recommendations across all posts.
-    - If `category_id` and `mood` is provided with username out of datbase, fetch general recommendations across all posts with considering cold start.
+    API endpoint to fetch recommendations for a user.
+    
+    This endpoint provides personalized post recommendations based on the following criteria:
+    - If `category_id` is provided, it fetches category-specific recommendations.
+    - If both `category_id` and `mood` are provided, it fetches mood-specific recommendations within the category.
+    - If neither `category_id` nor `mood` is provided, general recommendations across all posts are returned.
+    - For cold-start scenarios (when a user does not exist in the database), recommendations are generated using the provided `mood` and `category_id`.
+
+    Args:
+        username (str): The username for which recommendations are to be generated.
+        category_id (int, optional): The ID of the category to filter posts by. Defaults to None.
+        mood (str, optional): The mood of the user to further personalize recommendations. Defaults to None.
+        top_k (int, optional): The number of top recommendations to return. Defaults to 10.
+
+    Returns:
+        dict: A dictionary containing the username, category_id, mood, and a list of recommended video links.
     """
     # Fetch user features
     user_features = user_features_df.loc[user_features_df['username'] == username]
